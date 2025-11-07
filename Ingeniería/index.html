@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SennIA - Traductor de Señas</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- PANTALLA DE BIENVENIDA -->
+    <section id="welcome" class="welcome-screen">
+      <img src="logo-sennia.png" alt="Logo SennIA" class="welcome-logo" id="welcomeLogo">
+      <h1 class="app-title">SennIA</h1>
+      <p class="slogan">Comunicación sin barreras 💫</p>
+      <button class="explore-btn" onclick="startApp()">Explorar</button>
+      <button class="register-btn" onclick="openSection('register')">Registrarse</button>
+    </section>
+
+    <!-- MENÚ PRINCIPAL -->
+    <section id="mainMenu" class="hidden">
+      <header class="app-header">
+        <div class="header-left">
+          <img src="logo-sennia.png" alt="Logo pequeño" class="header-logo">
+          <h1>SennIA</h1>
+        </div>
+
+        <div class="header-right">
+          <span id="userName" class="user-name hidden"></span>
+          <button id="logoutBtn" class="small-btn hidden" onclick="logout()">Salir</button>
+          <div id="menuIcon" class="menu-icon" onclick="toggleMenu()">☰</div>
+        </div>
+      </header>
+
+      <!-- Panel lateral -->
+      <nav id="sideMenu" class="side-menu hidden" aria-hidden="true">
+        <ul>
+          <li onclick="openSection('settings')">⚙️ Configuración</li>
+          <li onclick="openSection('register')">🪪 Registrarse</li>
+          <li onclick="openSection('info')">ℹ️ Información General</li>
+          <li onclick="returnHome()">🏠 Volver al Inicio</li>
+        </ul>
+      </nav>
+
+      <section class="intro">
+        <p>¿Cómo quieres comunicarte hoy? ✨</p>
+      </section>
+
+      <main class="menu">
+        <div class="card" onclick="openSection('textToSign')">
+          <h2>🖊️ Texto o Audio ➜ Señas</h2>
+          <p>Convierte texto o voz a lenguaje de señas animado.</p>
+        </div>
+
+        <div class="card" onclick="openSection('signToText')">
+          <h2>🤟 Señas ➜ Texto o Audio</h2>
+          <p>Traduce tus movimientos a texto o sonido.</p>
+        </div>
+      </main>
+    </section>
+
+    <!-- PANTALLAS INTERNAS -->
+    <section id="textToSign" class="page hidden">
+      <button class="back-btn" onclick="goBack()">⬅ Volver</button>
+      <h2>Texto o Audio ➜ Señas</h2>
+      <textarea placeholder="Escribe algo aquí..."></textarea>
+      <button class="action-btn">Traducir a señas</button>
+    </section>
+
+    <section id="signToText" class="page hidden">
+      <button class="back-btn" onclick="goBack()">⬅ Volver</button>
+      <h2>Señas ➜ Texto o Audio</h2>
+      <p>Activa tu cámara o carga un video para empezar la traducción.</p>
+      <button class="action-btn">Iniciar cámara</button>
+    </section>
+
+    <section id="about" class="page hidden">
+      <button class="back-btn" onclick="goBack()">⬅ Volver</button>
+      <h2>Sobre el Proyecto</h2>
+      <p>Esta app fue diseñada por <b>Danna y Mariana</b> 💚 para facilitar la comunicación entre personas sordas y oyentes.</p>
+    </section>
+
+    <!-- CONFIGURACIONES -->
+    <section id="settings" class="page hidden">
+      <button class="back-btn" onclick="goBack()">⬅ Volver</button>
+      <h2>Configuración</h2>
+
+      <div class="setting-option">
+        <label for="language">🌍 Idioma:</label>
+        <select id="language">
+          <option>Español</option>
+          <option>Inglés</option>
+          <option>Francés</option>
+          <option>Portugués</option>
+        </select>
+      </div>
+
+      <div class="setting-option">
+        <label for="theme">🎨 Tema:</label>
+        <select id="theme" onchange="changeTheme(this.value)">
+          <option value="light">Claro</option>
+          <option value="dark">Oscuro</option>
+        </select>
+      </div>
+
+      <div class="setting-option">
+        <label for="fontSize">🔠 Tamaño del texto:</label>
+        <input type="range" id="fontSize" min="14" max="24" value="16" onchange="changeFontSize(this.value)">
+      </div>
+
+      <button class="action-btn" onclick="openSection('register')">🪪 Registrarse</button>
+      <p class="note">Personaliza tu experiencia y crea una cuenta para guardar tus preferencias 💫</p>
+    </section>
+
+    <!-- REGISTRO -->
+    <section id="register" class="page hidden">
+      <button class="back-btn" onclick="goBack()">⬅ Volver</button>
+      <h2>Crear Cuenta</h2>
+
+      <form id="registerForm" onsubmit="registerUser(event)">
+        <input type="text" id="name" placeholder="Nombre completo" required />
+        <input type="email" id="email" placeholder="Correo electrónico" required />
+        <input type="password" id="password" placeholder="Contraseña" required />
+        <input type="password" id="confirmPassword" placeholder="Confirmar contraseña" required />
+        <select id="country" required>
+          <option value="">Selecciona tu país</option>
+          <option>Colombia</option>
+          <option>México</option>
+          <option>Argentina</option>
+          <option>Chile</option>
+          <option>Perú</option>
+          <option>España</option>
+        </select>
+        <button type="submit" class="action-btn">Registrarse</button>
+      </form>
+
+      <p class="note">Tu información se mantendrá privada y segura 💚</p>
+    </section>
+
+    <!-- INFORMACIÓN -->
+    <section id="info" class="page hidden">
+      <button class="back-btn" onclick="goBack()">⬅ Volver</button>
+      <h2>Información General</h2>
+      <p><b>Versión:</b> 1.0</p>
+      <p><b>Desarrollado por:</b> Danna y Mariana 💚</p>
+      <p><b>Propósito:</b> Promover la inclusión y la comunicación entre personas sordas y oyentes mediante IA y tecnología accesible.</p>
+    </section>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+
